@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import configs from './database/ormconfig'
+import configs from '../ormconfig'
 import { LoggingMiddleware } from './utils/logging.middleware'
 
 @Module({
