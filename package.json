@@ -1,0 +1,32 @@
+{
+	"name": "whatever-coffee-shop",
+	"version": "1.0.0",
+	"description": "A database for Database class.",
+	"scripts": {
+		"start": "node api/main.js",
+		"install:client": "cd web && npm i",
+		"install:api": "cd api && yarn",
+		"build:api": "cd api && nest build",
+		"build:client": "cd api && npm run build",
+		"start:api": "cd api && nest start",
+		"start:client": "cd web && npm start"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hanzomaster/whatever-coffee-shop.git"
+	},
+	"keywords": [],
+	"contributors": [
+		{
+			"name": "Quach Ngoc Minh"
+		},
+		{
+			"name": "Nguyen Viet Hoang"
+		},
+		{
+			"name": "Tran Tuan Thinh"
+		}
+	],
+	"license": "ISC",
+	"homepage": "https://github.com/hanzomaster/whatever-coffee-shop#readme"
+}

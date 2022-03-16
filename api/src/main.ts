@@ -42,7 +42,8 @@ async function bootstrap() {
     },
   })
 
-  await app.listen(3000, async () => {
+  const PORT = process.env.PORT || 3333
+  await app.listen(PORT, async () => {
     Logger.log(
       `Documentation is running on: ${await app.getUrl()}/${globalPrefix}/docs`,
       'Documentation',
