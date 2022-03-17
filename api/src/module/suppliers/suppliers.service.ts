@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 import { CreateSupplierDto } from './dto/create-supplier.dto'
 import { UpdateSupplierDto } from './dto/update-supplier.dto'
+import { Supplier } from './entities/supplier.entity'
 
 @Injectable()
 export class SuppliersService {
-  create(createSupplierDto: CreateSupplierDto) {
-    return 'This action adds a new supplier'
+  constructor(
+    @InjectRepository(Supplier)
+    private readonly supplierRepo: Repository<Supplier>,
+  ) {}
+  async create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
+    try {
+      const newSupplier = this.supplierRepo.create({ ...createSupplierDto })
+      return Promise.resolve(this.supplierRepo.save(newSupplier))
+    } catch (error) {
+      Logger.error(error, 'SuppliersService')
+      throw new BadRequestException('Wrong input data')
+    }
   }
 
-  findAll() {
-    return `This action returns all suppliers`
+  async findAll(): Promise<Supplier[]> {
+    return this.supplierRepo.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} supplier`
+  async findOne(id: number): Promise<Supplier> {
+    try {
+      return await this.supplierRepo.findOneOrFail(id)
+    } catch (error) {
+      Logger.error(`Can't find supplier with id ${id}`, 'SuppliersService')
+      throw new BadRequestException("Can't find supplier")
+    }
   }
 
-  update(id: number, updateSupplierDto: UpdateSupplierDto) {
-    return `This action updates a #${id} supplier`
+  async update(
+    id: number,
+    updateSupplierDto: UpdateSupplierDto,
+  ): Promise<UpdateResult> {
+    await this.findOne(id)
+    return this.supplierRepo.update(id, updateSupplierDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} supplier`
+  async remove(id: number): Promise<DeleteResult> {
+    await this.findOne(id)
+    return this.supplierRepo.delete(id)
   }
 }

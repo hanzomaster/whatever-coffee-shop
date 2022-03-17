@@ -1,5 +1,7 @@
+import * as dotenv from 'dotenv'
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions'
 
+dotenv.config()
 const configs: MysqlConnectionOptions = {
   type: 'mysql',
   host: process.env.DB_HOST,
