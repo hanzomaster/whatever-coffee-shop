@@ -13,6 +13,7 @@ A database for Database class.
   - [Prerequisites](#prerequisites)
   - [Database Design](#database-design)
   - [How to run](#how-to-run)
+    - [Database](#database)
 
 ## Prerequisites
 
@@ -29,7 +30,9 @@ Use MySQL database with TypeORM for querying
 
 ## How to run
 
+### Database
+
 - Clone this github repo to your local machine
 - Create an empty database coffee in your MySQL database
-- Open your terminal at api folder and run `yarn run migration:run` to import data to your database
+- Open your terminal at api folder, run `yarn` to install all dependencies and `yarn run migration:run` to import data to your database
 - Run the server with `yarn start:prod`
