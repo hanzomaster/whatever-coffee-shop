@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 import { CreateSupplierdetailDto } from './dto/create-supplierdetail.dto'
 import { UpdateSupplierdetailDto } from './dto/update-supplierdetail.dto'
+import { Supplierdetail } from './entities/supplierdetail.entity'
 
 @Injectable()
 export class SupplierdetailsService {
-  create(createSupplierdetailDto: CreateSupplierdetailDto) {
-    return 'This action adds a new supplierdetail'
+  constructor(
+    @InjectRepository(Supplierdetail)
+    private readonly supplierDetailsRepo: Repository<Supplierdetail>,
+  ) {}
+  async create(
+    createSupplierdetailDto: CreateSupplierdetailDto,
+  ): Promise<Supplierdetail> {
+    try {
+      const newSupplierdetail = this.supplierDetailsRepo.create({
+        ...createSupplierdetailDto,
+      })
+      return Promise.resolve(this.supplierDetailsRepo.save(newSupplierdetail))
+    } catch (error) {
+      Logger.error(error, 'SupplierdetailsService')
+      throw new BadRequestException('Wrong input data')
+    }
   }
 
-  findAll() {
-    return `This action returns all supplierdetails`
+  async findAll(): Promise<Supplierdetail[]> {
+    return this.supplierDetailsRepo.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} supplierdetail`
+  async findOne(id: number): Promise<Supplierdetail> {
+    try {
+      return this.supplierDetailsRepo.findOneOrFail(id)
+    } catch (error) {
+      Logger.error(
+        `Can't find supplierdetail with id ${id}`,
+        'SupplierdetailsService',
+      )
+      throw new BadRequestException("Can't find supplierdetail")
+    }
   }
 
-  update(id: number, updateSupplierdetailDto: UpdateSupplierdetailDto) {
-    return `This action updates a #${id} supplierdetail`
+  async update(
+    id: number,
+    updateSupplierdetailDto: UpdateSupplierdetailDto,
+  ): Promise<UpdateResult> {
+    await this.findOne(id)
+    return this.supplierDetailsRepo.update(id, updateSupplierdetailDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} supplierdetail`
+  async remove(id: number): Promise<DeleteResult> {
+    await this.findOne(id)
+    return this.supplierDetailsRepo.delete(id)
   }
 }

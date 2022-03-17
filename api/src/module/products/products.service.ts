@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
+import { Product } from './entities/product.entity'
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product'
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepo: Repository<Product>,
+  ) {}
+
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    try {
+      const newProduct = this.productRepo.create({ ...createProductDto })
+      return Promise.resolve(this.productRepo.save(newProduct))
+    } catch (error) {
+      Logger.error(error, 'ProductsService')
+      throw new BadRequestException('Wrong input data')
+    }
   }
 
-  findAll() {
-    return `This action returns all products`
+  async findAll(): Promise<Product[]> {
+    return this.productRepo.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`
+  async findOne(id: number): Promise<Product> {
+    try {
+      return await this.productRepo.findOneOrFail(id)
+    } catch (error) {
+      Logger.error(`Can't find product with id ${id}`, 'ProductsService')
+      throw new BadRequestException("Can't find product")
+    }
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`
+  async update(
+    id: number,
+    updateProductDto: UpdateProductDto,
+  ): Promise<UpdateResult> {
+    await this.findOne(id)
+    return this.productRepo.update(id, updateProductDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`
+  async remove(id: number): Promise<DeleteResult> {
+    await this.findOne(id)
+    return this.productRepo.delete(id)
   }
 }
