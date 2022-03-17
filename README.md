@@ -13,3 +13,7 @@ A database for Database class.
   - [Database Design](#database-design)
 
 ## Database Design
+
+Use MySQL database with TypeORM for querying
+![coffee shop diagram.png](docs/coffee%20shop%20diagram.png)
+[Link to EER diagram](docs/Coffee%20shop.mwb)
