@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv'
-import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions'
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 
 dotenv.config()
-const configs: MysqlConnectionOptions = {
-  type: 'mysql',
+const configs: PostgresConnectionOptions = {
+  type: 'postgres',
   host: process.env.DB_HOST,
-  port: +process.env.DB_PORT || 3306,
+  port: +process.env.DB_PORT || 5432,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
@@ -18,6 +18,11 @@ const configs: MysqlConnectionOptions = {
     entitiesDir: 'src/module',
     migrationsDir: 'src/db/migration',
     subscribersDir: 'src/db/subscriber',
+  },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 }
 
