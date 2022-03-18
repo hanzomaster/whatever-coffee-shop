@@ -4,12 +4,12 @@
 	"description": "A database for Database class.",
 	"scripts": {
 		"start": "node api/main.js",
+		"start:api": "cd api && nest start",
+		"start:client": "cd web && npm start",
 		"install:client": "cd web && npm i",
 		"install:api": "cd api && yarn",
 		"build:api": "cd api && nest build",
-		"build:client": "cd api && npm run build",
-		"start:api": "cd api && nest start",
-		"start:client": "cd web && npm start"
+		"build:client": "cd api && npm run build"
 	},
 	"repository": {
 		"type": "git",
