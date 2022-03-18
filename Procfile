@@ -1,1 +1,1 @@
-web:cd api && node dist/main
+web: cd api && node dist/main

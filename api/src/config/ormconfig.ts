@@ -1,14 +1,17 @@
 import * as dotenv from 'dotenv'
+import * as PostgressConnectionStringParser from 'pg-connection-string'
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 
 dotenv.config()
+const databaseUrl: string = process.env.DATABASE_URL
+const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl)
 const configs: PostgresConnectionOptions = {
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: +process.env.DB_PORT || 5432,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: connectionOptions.host,
+  port: +connectionOptions.port,
+  username: connectionOptions.user,
+  password: connectionOptions.password,
+  database: connectionOptions.database,
   synchronize: false,
   logging: true,
   entities: ['dist/module/**/*.entity.js'],
