@@ -9,7 +9,9 @@
 		"install:client": "cd web && npm i",
 		"install:api": "cd api && yarn",
 		"build:api": "cd api && nest build",
-		"build:client": "cd api && npm run build"
+		"build:client": "cd api && npm run build",
+		"heroku-prebuild": "npm run install:api",
+		"heroku-postbuild": "npm run build:api"
 	},
 	"repository": {
 		"type": "git",
@@ -28,5 +30,8 @@
 		}
 	],
 	"license": "ISC",
-	"homepage": "https://github.com/hanzomaster/whatever-coffee-shop#readme"
+	"homepage": "https://github.com/hanzomaster/whatever-coffee-shop#readme",
+	"engines": {
+		"node": "16.x"
+	}
 }
