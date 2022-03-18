@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "A database for Database class.",
 	"scripts": {
-		"start": "node api/main.js",
+		"start": "node api/dist/main.js",
 		"start:api": "cd api && nest start",
 		"start:client": "cd web && npm start",
 		"install:client": "cd web && npm i",
