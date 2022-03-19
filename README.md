@@ -37,5 +37,6 @@ If you want to run this database locally then do the following
 
 - Clone this github repo to your local machine
 - Create an empty database name coffee in your PostgreSQL database
-- Open your terminal at api folder, run `yarn` to install all dependencies and `yarn run migration:run` to import data to your database
+- Open a terminal at api folder, run `copy env.example .env` and change corresponding variable to match your local database
+- Still at that terminal, run `yarn` to install all dependencies and `yarn run migration:run` to import data to your database
 - Run the server with `yarn start:prod`
