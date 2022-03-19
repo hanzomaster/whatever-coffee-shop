@@ -6,15 +6,19 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { DeleteResult, UpdateResult } from 'typeorm'
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard'
 import { CreateStoreDto } from './dto/create-store.dto'
 import { UpdateStoreDto } from './dto/update-store.dto'
 import { Store } from './entities/store.entity'
 import { StoresService } from './stores.service'
 
 @ApiTags('stores')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 @Controller('stores')
 export class StoresController {
   constructor(private readonly storesService: StoresService) {}

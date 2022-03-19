@@ -31,6 +31,7 @@ async function bootstrap() {
     .setTitle('Coffee API')
     .setDescription('Coffee shop API for class project')
     .setVersion('1.0.0')
+    .addBearerAuth()
     .build()
 
   const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions)

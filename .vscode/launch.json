@@ -1,0 +1,28 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"cwd": "${workspaceFolder}\\api",
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "Debug NestJS",
+			"smartStep": true,
+			"skipFiles": [
+				"node_modules",
+				"<node_internals>",
+				"**/async_hooks.js",
+				"async_hooks.js",
+				"**/internal/**/*"
+			],
+			"runtimeArgs": [
+				"-r",
+				"ts-node/register",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"program": "${workspaceFolder}\\api\\dist\\main",
+			"console": "integratedTerminal",
+			"autoAttachChildProcesses": true
+		}
+	]
+}
