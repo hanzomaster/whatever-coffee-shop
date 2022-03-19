@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { AuthModule } from './auth/auth.module'
 import configs from './config/ormconfig'
 import { CustomerModule } from './module/customer/customer.module'
 import { OrderdetailsModule } from './module/orderdetails/orderdetails.module'
@@ -22,6 +23,7 @@ import { LoggingMiddleware } from './utils/logging.middleware'
     SupplierdetailsModule,
     OrdersModule,
     OrderdetailsModule,
+    AuthModule,
   ],
 })
 export class AppModule implements NestModule {
