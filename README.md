@@ -12,8 +12,8 @@ A database for Database class.
   - [Table of content](#table-of-content)
   - [Prerequisites](#prerequisites)
   - [Database Design](#database-design)
+  - [Database Local](#database-local)
   - [Preview](#preview)
-    - [Database](#database)
 
 ## Prerequisites
 
@@ -27,11 +27,15 @@ Use PostgreSQL database with TypeORM for querying
 
 [Link to EER diagram](docs/Coffee%20shop.mwb)
 
-## Preview
+- Customer Table is where we store customers' information. There are 5 different rows which are **id**, **first name**, **last name**, **balance** and **address**
+- Order Table is where we store orders' information. We can see each each orders' **id**, **customerID**, **storeID**, **date**, and **total price** of the order.
+- In OrderDetails, we include details for each order. For example, a customer has 1 order with 2 difference product, this table will dispay each item price.
+- Next is the Product Table, we have products' **name**, **price** for each of them, and the **cost** of each product. We also separate each product into it own **category** and keep track of their **inventory**.
+- In the Store Table, we include the **location** of each store, **total revenue** in each store and the **cost** it took to operate.
+- Go to the SupplierDetails Table, we have suppliers' information and their transaction with the shop.
+- Lastly, in the suppliers Table, we have the supplier basic information like **name** and the total amount of **money paid** for each supplier
 
-- Go to <https://whatever-coffee-shop.herokuapp.com/>
-
-### Database
+## Database Local
 
 If you want to run this database locally then do the following
 
@@ -40,3 +44,8 @@ If you want to run this database locally then do the following
 - Open a terminal at api folder, run `copy env.example .env` and change corresponding variable to match your local database
 - Still at that terminal, run `yarn` to install all dependencies and `yarn run migration:run` to import data to your database
 - Run the server with `yarn start:prod`
+
+## Preview
+
+- Go to <https://whatever-coffee-shop.herokuapp.com/> for the web version if (which we don't have yet 🙃)
+- Documentation for API <https://whatever-coffee-shop.herokuapp.com/api/docs/>
