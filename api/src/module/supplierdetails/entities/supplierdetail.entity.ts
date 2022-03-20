@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
 import { Product } from '../../products/entities/product.entity'
 import { Supplier } from '../../suppliers/entities/supplier.entity'
 
@@ -14,18 +15,20 @@ export class Supplierdetail {
   order_date: Date
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   unit_price: number
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 0,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   supplier_quantity: number
 

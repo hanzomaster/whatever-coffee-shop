@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
 import { Orderdetail } from '../../orderdetails/entities/orderdetail.entity'
 import { Order } from '../../orders/entities/order.entity'
 
@@ -15,18 +16,20 @@ export class Store {
   location: string
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: false,
+    transformer: new ColumnNumericTransformer(),
   })
   revenue: number
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   fixed_cost: number
 

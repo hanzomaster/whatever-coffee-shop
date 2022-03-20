@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
+import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
 import { Orderdetail } from '../../orderdetails/entities/orderdetail.entity'
 import { Supplierdetail } from '../../supplierdetails/entities/supplierdetail.entity'
 import { Supplier } from '../../suppliers/entities/supplier.entity'
@@ -24,18 +25,20 @@ export class Product {
   name: string
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   price: number
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   cost: number
 
@@ -47,10 +50,11 @@ export class Product {
   category: string
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 0,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   inventory: number
 
