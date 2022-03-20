@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
 import { Customer } from '../../customer/entities/customer.entity'
 import { Order } from '../../orders/entities/order.entity'
 import { Product } from '../../products/entities/product.entity'
@@ -10,18 +11,20 @@ export class Orderdetail {
   id: number
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 2,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   unit_price: number
 
   @Column({
-    type: 'decimal',
+    type: 'numeric',
     precision: 10,
     scale: 0,
     nullable: true,
+    transformer: new ColumnNumericTransformer(),
   })
   quantity: number
 
