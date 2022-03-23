@@ -15,14 +15,15 @@ export class AuthService {
     const user = await this.userService.findOneByUsername(username)
     if (user && (await comparePassword(pass, user.password))) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user
-      return Promise.resolve(result)
+      delete user.password
+      delete user.createdAt
+      return Promise.resolve(user)
     }
     return null
   }
 
-  async login(user: User) {
-    const payload = { username: user.username, sub: user.id }
+  async login(user: User): Promise<{ access_token: string }> {
+    const payload = { user }
     return {
       access_token: this.jwtService.sign(payload),
     }
