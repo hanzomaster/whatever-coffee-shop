@@ -5,6 +5,7 @@ import { UsersModule } from '../module/users/users.module'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { jwtConstants } from './constants'
+import { RolesGuard } from './guards/roles.guard'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { LocalStrategy } from './strategies/local.strategy'
 
@@ -18,7 +19,7 @@ import { LocalStrategy } from './strategies/local.strategy'
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, RolesGuard],
   exports: [AuthService],
 })
 export class AuthModule {}
