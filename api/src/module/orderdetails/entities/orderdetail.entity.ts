@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
-import { Customer } from '../../customer/entities/customer.entity'
 import { Order } from '../../orders/entities/order.entity'
 import { Product } from '../../products/entities/product.entity'
 import { Store } from '../../stores/entities/store.entity'
@@ -29,9 +28,6 @@ export class Orderdetail {
   quantity: number
 
   @Column()
-  customerId: number
-
-  @Column()
   orderId: number
 
   @Column()
@@ -42,9 +38,6 @@ export class Orderdetail {
 
   @ManyToOne(() => Order, (order) => order.orderdetails)
   order: Order
-
-  @ManyToOne(() => Customer, (customer) => customer.orderdetails)
-  customer: Customer
 
   @ManyToOne(() => Product, (product) => product.orderdetails)
   product: Product[]

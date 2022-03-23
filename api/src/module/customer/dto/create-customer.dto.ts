@@ -1,4 +1,4 @@
-import { IsDecimal, IsOptional, IsString } from 'class-validator'
+import { IsDecimal, IsMobilePhone, IsString } from 'class-validator'
 
 export class CreateCustomerDto {
   @IsString()
@@ -10,7 +10,6 @@ export class CreateCustomerDto {
   @IsDecimal()
   balance: number
 
-  @IsOptional()
-  @IsString()
-  address: string
+  @IsMobilePhone('vi-VN')
+  phone: string
 }

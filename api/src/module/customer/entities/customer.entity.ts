@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
-import { Orderdetail } from '../../orderdetails/entities/orderdetail.entity'
 import { Order } from '../../orders/entities/order.entity'
 
 @Entity({ name: 'customer' })
@@ -31,16 +30,9 @@ export class Customer {
   })
   balance: number
 
-  @Column({
-    type: 'varchar',
-    length: 50,
-    nullable: true,
-  })
-  address: string
+  @Column()
+  phone: string
 
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[]
-
-  @OneToMany(() => Orderdetail, (order) => order.customer)
-  orderdetails: Orderdetail[]
 }
