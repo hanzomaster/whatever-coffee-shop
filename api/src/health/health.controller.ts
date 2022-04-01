@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import {
   HealthCheck,
   HealthCheckService,
@@ -6,6 +7,7 @@ import {
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus'
 
+@ApiTags('health check')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -20,10 +22,13 @@ export class HealthController {
     return this.health.check([
       () =>
         this.http.pingCheck(
-          'nestjs-docs',
-          'https://whatever-coffee-shop.herokuapp.com/api/docs',
+          'api',
+          'https://whatever-coffee-shop.herokuapp.com/',
         ),
-      () => this.db.pingCheck('database'),
+      () =>
+        this.db.pingCheck('database', {
+          timeout: 5000,
+        }),
     ])
   }
 }
