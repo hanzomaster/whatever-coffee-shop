@@ -80,3 +80,6 @@ db-data
 # Vuepress
 .temp
 .cache
+
+# HTTP Methods
+request.http

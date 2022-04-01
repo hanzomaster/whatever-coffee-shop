@@ -24,12 +24,14 @@
     "migration:run": "yarn run build && yarn run typeorm migration:run"
   },
   "dependencies": {
+    "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^1.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "@nestjs/swagger": "^5.2.0",
     "@nestjs/terminus": "^8.0.6",
     "@nestjs/typeorm": "^8.0.3",

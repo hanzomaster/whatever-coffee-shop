@@ -13,7 +13,7 @@ const configs: PostgresConnectionOptions = {
   password: connectionOptions.password,
   database: connectionOptions.database,
   synchronize: false,
-  logging: true,
+  logging: process.env.NODE_ENV === 'production' ? false : true,
   entities: ['dist/module/**/*.entity.js'],
   migrations: ['dist/db/migration/**/*.js'],
   subscribers: ['dist/db/subscriber/**/*.js'],
