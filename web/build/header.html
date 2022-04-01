@@ -1,0 +1,37 @@
+<head>
+    <title>Whatever Coffee Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/logo.png">
+    <link href="./stylesheets/general.css" rel="stylesheet">
+    <link href="./stylesheets/button.css" rel="stylesheet">
+    <link href="./stylesheets/layout.css" rel="stylesheet">
+    <link href="./stylesheets/popup.css" rel="stylesheet">
+    <link href="./stylesheets/product.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<header>
+    <div class="tabBar">
+        <div class="brandName">WHATEVER COFFEE SHOP<sup><i class="material-icons"
+                    style="font-size: 1.7vw;">star</i></sup></div>
+        <button class="tabBtn" onclick="location.href='./index.html'" type="button">Trang chủ</button>
+        <button class="tabBtn" onclick="location.href='./introduction.html'" type="button">Giới thiệu</button>
+        <button class="tabBtn" onclick="location.href='./orderPage.html'" type="button">Đặt hàng</button>
+        <button class="tabBtn" onclick="location.href='./stores.html'" type="button">Cửa hàng</button>
+        <button class="tabBtn" onclick="location.href='./discount.html'" type="button">Khuyến mãi</button>
+        <div></div>
+        <button id="profile" onclick="location.href='#popup1'"><i class="fa fa-user-o"></i></button>
+    </div>
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2>Login</h2>
+            <a class="close" href="#">&times;</a>
+            <input placeholder="Nhập số điện thoại của bạn" id="phoneNo" type="number"><BR />
+            <input placeholder="Nhập mật khẩu của bạn" id="password" type="password"><BR />
+            <button class="yellowBtn">ĐĂNG NHẬP</button><BR />
+            <button class="textBtn">Tạo tài khoản</button>
+        </div>
+    </div>
+</header>

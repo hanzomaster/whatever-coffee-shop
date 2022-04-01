@@ -1,0 +1,197 @@
+.addBtn {
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  border: solid 2px white;
+  border-radius: 50%;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s ease;
+  border: none;
+  color: black;
+  font-size: 250%;
+  float: inline-end;
+}
+
+.addBtn:hover {
+  color: #fd9813;
+}
+
+.textBtn {
+  transition: all 0.5s;
+  text-align: center;
+  color: #fa9c21;
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+}
+
+.textBtn:hover {
+  font-weight: bold;
+}
+
+.yellowBtn {
+  color: white;
+  background-color: #fa9c21;
+  border: transparent;
+  border-radius: 0.2em;
+  padding: 2% 5%;
+  margin-top: 1%;
+  width: 100%;
+  height: max-content;
+}
+
+.yellowBtn:hover {
+  background-color: #fd9813;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+#profile {
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  border: solid 2px white;
+  border-radius: 50%;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s ease;
+  float: right;
+}
+
+.gogoBtn {
+  transition: all 0.5s;
+  text-align: center;
+  color: #fa9c21;
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  font-size: 160%;
+  font-weight: bold;
+  padding-left: 46%;
+}
+.gogoBtn span {
+  color: #fa9c21;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.gogoBtn span a {
+  display: none;
+}
+
+.gogoBtn:hover {
+  padding-left: 45%;
+}
+
+.gogoBtn:hover span a {
+  display: inline-block;
+}
+
+.tabBar {
+  display: grid;
+  float: inline-end;
+}
+
+.tabBtn {
+  background-color: transparent;
+  color: white;
+  float: right;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s ease;
+  text-align: center;
+}
+
+.tabBtn:hover {
+  font-weight: bold;
+}
+
+.dropdown {
+  background-color: transparent;
+  color: white;
+  float: right;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s ease;
+  text-align: left;
+  font-weight: bold;
+  width: 80%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  padding: 2%;
+  background-color: transparent;
+  font-weight: normal;
+  border-bottom: solid 0.25px white;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 2px 0 2px 0;
+  display: block;
+  color: white;
+  text-decoration: none;
+  z-index: 4;
+}
+.dropdown-content a:hover {
+  font-weight: bold;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdownGrid {
+  padding: auto 5%;
+  display: grid;
+  width: 90%;
+  height: 100%;
+  float: left;
+  grid-template-columns: 4fr repeat(3, 2fr);
+}
+
+@media only screen and (min-width: 850px) {
+  .tabBar {
+    grid-template-columns: 3fr repeat(7, 1fr);
+    width: 85%;
+  }
+
+  .tabBtn {
+    font-size: 90%;
+  }
+
+  #profile {
+    width: 50px;
+    height: 50px;
+    font-size: 200%;
+  }
+}
+@media only screen and (max-width: 850px) {
+  .tabBar {
+    grid-template-columns: 3fr repeat(7, 1fr);
+    width: 90%;
+  }
+
+  .tabBtn {
+    font-size: 80%;
+  }
+
+  #profile {
+    width: 40px;
+    height: 40px;
+    font-size: 140%;
+  }
+}
