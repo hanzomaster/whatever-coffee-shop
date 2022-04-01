@@ -27,7 +27,7 @@ Use PostgreSQL database with TypeORM for querying
 
 [Link to EER diagram](docs/Coffee%20shop.mwb)
 
-- Customer Table is where we store customers' information. There are 5 different rows which are **id**, **first name**, **last name**, **balance** and **address**
+- Customer Table is where we store customers' information. There are 5 different rows which are **id**, **first name**, **last name**, **balance** and **phone number**
 - Order Table is where we store orders' information. We can see each each orders' **id**, **customerID**, **storeID**, **date**, and **total price** of the order.
 - In OrderDetails, we include details for each order. For example, a customer has 1 order with 2 difference product, this table will dispay each item price.
 - Next is the Product Table, we have products' **name**, **price** for each of them, and the **cost** of each product. We also separate each product into it own **category** and keep track of their **inventory**.

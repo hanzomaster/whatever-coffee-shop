@@ -50,9 +50,10 @@ async function bootstrap() {
       'Documentation',
     )
     Logger.log(
-      `Application is running on: ${await app.getUrl()}/${globalPrefix}`,
-      'NestApplication',
+      `Server is running on: ${await app.getUrl()}/${globalPrefix}`,
+      'NestAPI',
     )
+    Logger.log(`App is running on: ${await app.getUrl()}`, 'Frontend')
   })
 }
 bootstrap()
