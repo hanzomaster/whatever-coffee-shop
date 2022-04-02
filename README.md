@@ -25,8 +25,6 @@ Use PostgreSQL database with TypeORM for querying
 
 ![coffee shop diagram.png](docs/coffee%20shop%20diagram.png)
 
-[Link to EER diagram](docs/Coffee%20shop.mwb)
-
 - Customer Table is where we store customers' information. There are 5 different rows which are **id**, **first name**, **last name**, **balance** and **phone number**
 - Order Table is where we store orders' information. We can see each each orders' **id**, **customerID**, **storeID**, **date**, and **total price** of the order.
 - In OrderDetails, we include details for each order. For example, a customer has 1 order with 2 difference product, this table will dispay each item price.
@@ -47,5 +45,5 @@ If you want to run this database locally then do the following
 
 ## Preview
 
-- Go to <https://whatever-coffee-shop.herokuapp.com/> for the web version if (which we don't have yet 🙃)
+- Go to <https://whatever-coffee-shop.herokuapp.com/> for the web version if (which is not stable yet 🙃)
 - Documentation for API <https://whatever-coffee-shop.herokuapp.com/api/docs/>
