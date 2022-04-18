@@ -5,11 +5,8 @@
 	"scripts": {
 		"start": "node api/dist/main.js",
 		"start:api": "cd api && yarn start",
-		"start:client": "cd web && npm start",
-		"install:client": "cd web && npm ci",
 		"install:api": "cd api && yarn",
 		"build:api": "cd api && yarn run build",
-		"build:client": "cd api && npm start",
 		"heroku-prebuild": "npm run install:api",
 		"heroku-postbuild": "npm run build:api"
 	},

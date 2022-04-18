@@ -1,10 +1,8 @@
 import { HttpModule } from '@nestjs/axios'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { ServeStaticModule } from '@nestjs/serve-static'
 import { TerminusModule } from '@nestjs/terminus'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { join } from 'path'
 import { AuthModule } from './auth/auth.module'
 import configs from './config/ormconfig'
 import { HealthController } from './health/health.controller'
@@ -21,9 +19,6 @@ import { LoggingMiddleware } from './utils/logging.middleware'
   controllers: [HealthController],
   imports: [
     HttpModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'web'),
-    }),
     TerminusModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(configs),
