@@ -45,5 +45,5 @@ If you want to run this database locally then do the following
 
 ## Preview
 
-- Go to <https://whatever-coffee-shop.herokuapp.com/> for the web version if (which is not stable yet 🙃)
+- Link to our frontend <https://github.com/Mint18032/coffeeShop> with [preview](https://mint18032.github.io/coffeeShop/build/index.html)
 - Documentation for API <https://whatever-coffee-shop.herokuapp.com/api/docs/>
