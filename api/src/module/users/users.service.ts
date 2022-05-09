@@ -15,6 +15,7 @@ export class UsersService {
     const password = await encodedPassword(createUserDto.password)
     try {
       const newUser = this.userRepo.create({ ...createUserDto, password })
+      delete newUser.password
       return Promise.resolve(this.userRepo.save(newUser))
     } catch (error) {
       Logger.error(error, 'UsersService')

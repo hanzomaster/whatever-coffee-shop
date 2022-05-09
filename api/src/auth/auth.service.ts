@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '../module/users/entities/user.entity'
 import { UsersService } from '../module/users/users.service'
@@ -12,14 +12,17 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOneByUsername(username)
-    if (user && (await comparePassword(pass, user.password))) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      delete user.password
-      delete user.createdAt
-      return Promise.resolve(user)
+    try {
+      const user = await this.userService.findOneByUsername(username)
+      if (user && (await comparePassword(pass, user.password))) {
+        delete user.password
+        delete user.createdAt
+        return Promise.resolve(user)
+      }
+      return null
+    } catch (e) {
+      throw new UnauthorizedException('failed - validate user')
     }
-    return null
   }
 
   async login(user: User): Promise<{ access_token: string }> {
