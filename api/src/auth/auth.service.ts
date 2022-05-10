@@ -1,19 +1,19 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '../module/users/entities/user.entity'
-import { UsersService } from '../module/users/users.service'
+import { UserService } from '../module/users/user.service'
 import { comparePassword } from '../utils/argon2'
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
     try {
-      const user = await this.userService.findOneByUsername(username)
+      const user = await this.userService.findByUserName(username)
       if (user && (await comparePassword(pass, user.password))) {
         delete user.password
         delete user.createdAt
