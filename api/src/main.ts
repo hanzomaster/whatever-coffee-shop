@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as compression from 'compression'
+import * as cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
 
@@ -13,6 +14,7 @@ async function bootstrap() {
 
   app.use(helmet())
   app.use(compression())
+  app.use(cookieParser())
 
   const globalPrefix = 'api'
   app.setGlobalPrefix(globalPrefix)
@@ -46,14 +48,14 @@ async function bootstrap() {
   const PORT = process.env.PORT || 3333
   await app.listen(PORT, async () => {
     Logger.log(
-      `Documentation is running on: ${await app.getUrl()}/${globalPrefix}/docs`,
+      `Documentation is running on: http://localhost:3333/${globalPrefix}/docs`,
       'Documentation',
     )
     Logger.log(
-      `Server is running on: ${await app.getUrl()}/${globalPrefix}`,
+      `Server is running on: http://localhost:3333/${globalPrefix}`,
       'NestAPI',
     )
-    Logger.log(`App is running on: ${await app.getUrl()}`, 'Frontend')
+    Logger.log(`App is running on: http://localhost:3333`, 'Frontend')
   })
 }
 bootstrap()

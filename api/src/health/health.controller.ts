@@ -21,10 +21,7 @@ export class HealthController {
   check() {
     return this.health.check([
       () =>
-        this.http.pingCheck(
-          'api',
-          'https://whatever-coffee-shop.herokuapp.com/',
-        ),
+        this.http.pingCheck('api', 'https://whatever-coffee.herokuapp.com/'),
       () =>
         this.db.pingCheck('database', {
           timeout: 5000,
