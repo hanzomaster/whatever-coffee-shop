@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { DeleteResult, UpdateResult } from 'typeorm'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
@@ -15,7 +15,6 @@ import { Product } from './entities/product.entity'
 import { ProductsService } from './products.service'
 
 @ApiTags('products')
-@ApiBearerAuth()
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
