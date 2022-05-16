@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { DeleteResult, UpdateResult } from 'typeorm'
 import { CreateSupplierdetailDto } from './dto/create-supplierdetail.dto'
 import { UpdateSupplierdetailDto } from './dto/update-supplierdetail.dto'
@@ -15,7 +15,6 @@ import { Supplierdetail } from './entities/supplierdetail.entity'
 import { SupplierdetailsService } from './supplierdetails.service'
 
 @ApiTags('supplierdetails')
-@ApiBearerAuth()
 @Controller('supplierdetails')
 export class SupplierdetailsController {
   constructor(
