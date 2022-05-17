@@ -58,6 +58,20 @@ export class Product {
   })
   inventory: number
 
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  img_path: string
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  description: string
+
   @Column()
   supplierId: number
 

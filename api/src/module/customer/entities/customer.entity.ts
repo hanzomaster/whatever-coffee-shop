@@ -9,17 +9,10 @@ export class Customer {
 
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 100,
     nullable: false,
   })
-  first_name: string
-
-  @Column({
-    type: 'varchar',
-    length: 20,
-    nullable: false,
-  })
-  last_name: string
+  name: string
 
   @Column({
     type: 'numeric',

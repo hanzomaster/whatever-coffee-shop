@@ -1,4 +1,11 @@
-import { IsAlphanumeric, IsEnum, IsOptional, MinLength } from 'class-validator'
+import {
+  IsAlphanumeric,
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsPhoneNumber,
+  MinLength,
+} from 'class-validator'
 import { Role } from '../../../auth/role.enum'
 
 export class CreateUserDto {
@@ -7,6 +14,12 @@ export class CreateUserDto {
 
   @MinLength(8)
   password: string
+
+  @IsDate()
+  dob: Date
+
+  @IsPhoneNumber('VN')
+  phone: string
 
   @IsOptional()
   @IsEnum(Role)
