@@ -20,6 +20,21 @@ export class User {
   password: string
 
   @Column({
+    type: 'date',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  dob: Date
+
+  @Column({
+    type: 'varchar',
+    length: 20,
+    nullable: false,
+    default: '0123456789',
+  })
+  phone: string
+
+  @Column({
     type: 'enum',
     enum: Role,
     default: Role.USER,

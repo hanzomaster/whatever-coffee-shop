@@ -33,6 +33,13 @@ export class Store {
   })
   fixed_cost: number
 
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  img_path: string
+
   @OneToMany(() => Orderdetail, (orderdetail) => orderdetail.store)
   orderdetails: Orderdetail[]
 

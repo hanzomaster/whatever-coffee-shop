@@ -18,4 +18,12 @@ export class CreateProductDto {
   @IsOptional()
   @IsDecimal()
   inventory: number
+
+  @IsOptional()
+  @IsString()
+  img_path: string
+
+  @IsOptional()
+  @IsString()
+  description: string
 }

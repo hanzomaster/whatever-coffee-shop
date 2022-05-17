@@ -10,4 +10,8 @@ export class CreateStoreDto {
   @IsOptional()
   @IsDecimal()
   fixed_cost: number
+
+  @IsOptional()
+  @IsString()
+  img_path: string
 }
