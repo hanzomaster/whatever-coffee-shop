@@ -1,6 +1,6 @@
 import {
   IsAlphanumeric,
-  IsDate,
+  IsDateString,
   IsEnum,
   IsOptional,
   IsPhoneNumber,
@@ -15,7 +15,7 @@ export class CreateUserDto {
   @MinLength(8)
   password: string
 
-  @IsDate()
+  @IsDateString()
   dob: Date
 
   @IsPhoneNumber('VN')
