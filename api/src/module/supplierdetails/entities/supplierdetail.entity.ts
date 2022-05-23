@@ -9,7 +9,7 @@ export class Supplierdetail {
   id: number
 
   @Column({
-    type: 'timestamp',
+    type: 'date',
     nullable: true,
   })
   order_date: Date

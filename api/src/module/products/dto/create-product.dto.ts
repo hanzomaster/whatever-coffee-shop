@@ -1,21 +1,20 @@
-import { IsDecimal, IsOptional, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsDecimal, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateProductDto {
   @IsString()
   name: string
 
-  @IsOptional()
   @IsDecimal()
   price: number
 
-  @IsOptional()
   @IsDecimal()
   cost: number
 
+  @IsOptional()
   @IsString()
   category: string
 
-  @IsOptional()
   @IsDecimal()
   inventory: number
 
@@ -26,4 +25,8 @@ export class CreateProductDto {
   @IsOptional()
   @IsString()
   description: string
+
+  @Type(() => Number)
+  @IsNumber()
+  supplierId: number
 }

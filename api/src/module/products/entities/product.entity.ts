@@ -72,7 +72,10 @@ export class Product {
   })
   description: string
 
-  @Column()
+  @Column({
+    nullable: true,
+    default: 0,
+  })
   supplierId: number
 
   @ManyToOne(() => Supplier, (supplier) => supplier.products)

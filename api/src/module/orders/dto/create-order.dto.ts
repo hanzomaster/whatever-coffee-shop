@@ -1,11 +1,18 @@
-import { IsDateString, IsDecimal, IsOptional } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsDateString, IsDecimal, IsNumber } from 'class-validator'
 
 export class CreateOrderDto {
-  @IsOptional()
   @IsDateString()
   date: Date
 
-  @IsOptional()
   @IsDecimal()
   total_price: number
+
+  @Type(() => Number)
+  @IsNumber()
+  customerId: number
+
+  @Type(() => Number)
+  @IsNumber()
+  storeId: number
 }

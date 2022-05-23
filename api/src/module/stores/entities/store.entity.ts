@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
-import { Orderdetail } from '../../orderdetails/entities/orderdetail.entity'
 import { Order } from '../../orders/entities/order.entity'
 
 @Entity({ name: 'store' })
@@ -39,9 +38,6 @@ export class Store {
     nullable: true,
   })
   img_path: string
-
-  @OneToMany(() => Orderdetail, (orderdetail) => orderdetail.store)
-  orderdetails: Orderdetail[]
 
   @OneToMany(() => Order, (order) => order.store)
   orders: Order[]
