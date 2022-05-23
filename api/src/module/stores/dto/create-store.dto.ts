@@ -7,7 +7,6 @@ export class CreateStoreDto {
   @IsDecimal()
   revenue: number
 
-  @IsOptional()
   @IsDecimal()
   fixed_cost: number
 
