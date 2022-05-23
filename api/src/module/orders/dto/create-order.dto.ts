@@ -5,7 +5,9 @@ export class CreateOrderDto {
   @IsDateString()
   date: Date
 
-  @IsDecimal()
+  @IsDecimal({
+    locale: 'vi-VN',
+  })
   total_price: number
 
   @Type(() => Number)
