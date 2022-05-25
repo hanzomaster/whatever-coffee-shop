@@ -5,7 +5,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { ColumnNumericTransformer } from '../../../config/column-numeric-transformer'
 import { Customer } from '../../customer/entities/customer.entity'
 import { Orderdetail } from '../../orderdetails/entities/orderdetail.entity'
 import { Store } from '../../stores/entities/store.entity'
@@ -20,15 +19,6 @@ export class Order {
     nullable: true,
   })
   date: Date
-
-  @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 2,
-    nullable: true,
-    transformer: new ColumnNumericTransformer(),
-  })
-  total_price: number
 
   @Column()
   customerId: number
