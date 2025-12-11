@@ -1,20 +1,27 @@
 {
 	"name": "whatever-coffee-shop",
 	"version": "2.0.0",
-	"description": "Coffee shop API - modernized with Bun, NestJS 11, and Prisma.",
+	"description": "Coffee shop management system with NestJS API and SvelteKit UI.",
 	"scripts": {
 		"start": "bun api/dist/main.js",
 		"dev": "cd api && bun run start:dev",
+		"dev:web": "cd web && bun run dev",
+		"dev:all": "concurrently \"bun run dev\" \"bun run dev:web\"",
 		"build": "cd api && bun run build",
+		"build:web": "cd web && bun run build",
 		"install:api": "cd api && bun install",
+		"install:web": "cd web && bun install",
+		"install:all": "bun run install:api && bun run install:web",
 		"lint": "cd api && bun run lint",
+		"lint:web": "cd web && bun run lint",
+		"check:web": "cd web && bun run check",
 		"test": "cd api && bun test"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/hanzomaster/whatever-coffee-shop.git"
 	},
-	"keywords": ["nestjs", "prisma", "bun", "coffee-shop", "api"],
+	"keywords": ["nestjs", "prisma", "bun", "coffee-shop", "api", "sveltekit"],
 	"contributors": [
 		{
 			"name": "Quach Ngoc Minh"

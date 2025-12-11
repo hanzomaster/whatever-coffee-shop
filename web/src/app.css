@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@theme {
+	/* Coffee shop color palette */
+	--color-coffee-50: #fdf8f3;
+	--color-coffee-100: #f9eee3;
+	--color-coffee-200: #f2dbc4;
+	--color-coffee-300: #e8c29d;
+	--color-coffee-400: #dba373;
+	--color-coffee-500: #d08950;
+	--color-coffee-600: #c27340;
+	--color-coffee-700: #a15c36;
+	--color-coffee-800: #824b32;
+	--color-coffee-900: #6a3f2c;
+	--color-coffee-950: #391f15;
+
+	/* Brand colors */
+	--color-primary: var(--color-coffee-600);
+	--color-primary-foreground: #ffffff;
+
+	/* Semantic colors */
+	--color-background: #ffffff;
+	--color-foreground: #0a0a0a;
+	--color-muted: #f5f5f5;
+	--color-muted-foreground: #737373;
+	--color-border: #e5e5e5;
+	--color-ring: var(--color-coffee-500);
+
+	/* Status colors */
+	--color-success: #22c55e;
+	--color-warning: #f59e0b;
+	--color-destructive: #ef4444;
+
+	/* Radius */
+	--radius: 0.5rem;
+
+	/* Font family */
+	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	body {
+		@apply bg-background text-foreground font-sans antialiased;
+	}
+}
