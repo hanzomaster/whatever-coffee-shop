@@ -1,12 +1,12 @@
-import { IsDecimal, IsMobilePhone, IsString } from 'class-validator'
+import { IsDecimal, IsMobilePhone, IsString } from "class-validator";
 
 export class CreateCustomerDto {
   @IsString()
-  name: string
+  name!: string;
 
   @IsDecimal()
-  balance: number
+  balance!: number;
 
-  @IsMobilePhone('vi-VN')
-  phone: string
+  @IsMobilePhone("vi-VN")
+  phone!: string;
 }

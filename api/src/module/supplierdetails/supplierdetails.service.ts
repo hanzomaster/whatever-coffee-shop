@@ -1,56 +1,58 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateSupplierdetailDto } from './dto/create-supplierdetail.dto'
-import { UpdateSupplierdetailDto } from './dto/update-supplierdetail.dto'
-import { Supplierdetail } from './entities/supplierdetail.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { SupplierDetail } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateSupplierdetailDto } from "./dto/create-supplierdetail.dto";
+import type { UpdateSupplierdetailDto } from "./dto/update-supplierdetail.dto";
 
 @Injectable()
 export class SupplierdetailsService {
-  constructor(
-    @InjectRepository(Supplierdetail)
-    private readonly supplierDetailsRepo: Repository<Supplierdetail>,
-  ) {}
-  async create(
-    createSupplierdetailDto: CreateSupplierdetailDto,
-  ): Promise<Supplierdetail> {
+  private readonly logger = new Logger(SupplierdetailsService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createSupplierdetailDto: CreateSupplierdetailDto): Promise<SupplierDetail> {
     try {
-      const newSupplierdetail = this.supplierDetailsRepo.create({
-        ...createSupplierdetailDto,
-      })
-      return Promise.resolve(this.supplierDetailsRepo.save(newSupplierdetail))
+      return await this.prisma.supplierDetail.create({
+        data: createSupplierdetailDto,
+      });
     } catch (error) {
-      Logger.error(error, 'SupplierdetailsService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create supplier detail", error);
+      throw error;
     }
   }
 
-  async findAll(): Promise<Supplierdetail[]> {
-    return this.supplierDetailsRepo.find()
+  async findAll(): Promise<SupplierDetail[]> {
+    return this.prisma.supplierDetail.findMany();
   }
 
-  async findOne(id: number): Promise<Supplierdetail> {
-    try {
-      return this.supplierDetailsRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(
-        `Can't find supplierdetail with id ${id}`,
-        'SupplierdetailsService',
-      )
-      throw new BadRequestException("Can't find supplierdetail")
+  async findOne(id: number): Promise<SupplierDetail> {
+    const supplierDetail = await this.prisma.supplierDetail.findUnique({
+      where: { id },
+    });
+
+    if (!supplierDetail) {
+      this.logger.error(`Cannot find supplier detail with id ${id}`);
+      throw new NotFoundException(`Supplier detail with id ${id} not found`);
     }
+
+    return supplierDetail;
   }
 
   async update(
     id: number,
     updateSupplierdetailDto: UpdateSupplierdetailDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return this.supplierDetailsRepo.update(id, updateSupplierdetailDto)
+  ): Promise<SupplierDetail> {
+    await this.findOne(id);
+    return this.prisma.supplierDetail.update({
+      where: { id },
+      data: updateSupplierdetailDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return this.supplierDetailsRepo.delete(id)
+  async remove(id: number): Promise<SupplierDetail> {
+    await this.findOne(id);
+    return this.prisma.supplierDetail.delete({
+      where: { id },
+    });
   }
 }

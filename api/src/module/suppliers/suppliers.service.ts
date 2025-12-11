@@ -1,49 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateSupplierDto } from './dto/create-supplier.dto'
-import { UpdateSupplierDto } from './dto/update-supplier.dto'
-import { Supplier } from './entities/supplier.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { Supplier } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateSupplierDto } from "./dto/create-supplier.dto";
+import type { UpdateSupplierDto } from "./dto/update-supplier.dto";
 
 @Injectable()
 export class SuppliersService {
-  constructor(
-    @InjectRepository(Supplier)
-    private readonly supplierRepo: Repository<Supplier>,
-  ) {}
+  private readonly logger = new Logger(SuppliersService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
+
   async create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
     try {
-      const newSupplier = this.supplierRepo.create({ ...createSupplierDto })
-      return Promise.resolve(this.supplierRepo.save(newSupplier))
+      return await this.prisma.supplier.create({
+        data: createSupplierDto,
+      });
     } catch (error) {
-      Logger.error(error, 'SuppliersService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create supplier", error);
+      throw error;
     }
   }
 
   async findAll(): Promise<Supplier[]> {
-    return this.supplierRepo.find()
+    return this.prisma.supplier.findMany();
   }
 
   async findOne(id: number): Promise<Supplier> {
-    try {
-      return await this.supplierRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(`Can't find supplier with id ${id}`, 'SuppliersService')
-      throw new BadRequestException("Can't find supplier")
+    const supplier = await this.prisma.supplier.findUnique({
+      where: { id },
+    });
+
+    if (!supplier) {
+      this.logger.error(`Cannot find supplier with id ${id}`);
+      throw new NotFoundException(`Supplier with id ${id} not found`);
     }
+
+    return supplier;
   }
 
-  async update(
-    id: number,
-    updateSupplierDto: UpdateSupplierDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return this.supplierRepo.update(id, updateSupplierDto)
+  async update(id: number, updateSupplierDto: UpdateSupplierDto): Promise<Supplier> {
+    await this.findOne(id);
+    return this.prisma.supplier.update({
+      where: { id },
+      data: updateSupplierDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return this.supplierRepo.delete(id)
+  async remove(id: number): Promise<Supplier> {
+    await this.findOne(id);
+    return this.prisma.supplier.delete({
+      where: { id },
+    });
   }
 }

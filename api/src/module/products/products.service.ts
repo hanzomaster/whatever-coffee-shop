@@ -1,50 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateProductDto } from './dto/create-product.dto'
-import { UpdateProductDto } from './dto/update-product.dto'
-import { Product } from './entities/product.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { Product } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateProductDto } from "./dto/create-product.dto";
+import type { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductsService {
-  constructor(
-    @InjectRepository(Product)
-    private readonly productRepo: Repository<Product>,
-  ) {}
+  private readonly logger = new Logger(ProductsService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
     try {
-      const newProduct = this.productRepo.create({ ...createProductDto })
-      return Promise.resolve(this.productRepo.save(newProduct))
+      return await this.prisma.product.create({
+        data: createProductDto,
+      });
     } catch (error) {
-      Logger.error(error, 'ProductsService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create product", error);
+      throw error;
     }
   }
 
   async findAll(): Promise<Product[]> {
-    return this.productRepo.find()
+    return this.prisma.product.findMany();
   }
 
   async findOne(id: number): Promise<Product> {
-    try {
-      return await this.productRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(`Can't find product with id ${id}`, 'ProductsService')
-      throw new BadRequestException("Can't find product")
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (!product) {
+      this.logger.error(`Cannot find product with id ${id}`);
+      throw new NotFoundException(`Product with id ${id} not found`);
     }
+
+    return product;
   }
 
-  async update(
-    id: number,
-    updateProductDto: UpdateProductDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return this.productRepo.update(id, updateProductDto)
+  async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    await this.findOne(id);
+    return this.prisma.product.update({
+      where: { id },
+      data: updateProductDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return this.productRepo.delete(id)
+  async remove(id: number): Promise<Product> {
+    await this.findOne(id);
+    return this.prisma.product.delete({
+      where: { id },
+    });
   }
 }

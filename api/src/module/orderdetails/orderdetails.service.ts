@@ -1,57 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateOrderdetailDto } from './dto/create-orderdetail.dto'
-import { UpdateOrderdetailDto } from './dto/update-orderdetail.dto'
-import { Orderdetail } from './entities/orderdetail.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { OrderDetail } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateOrderdetailDto } from "./dto/create-orderdetail.dto";
+import type { UpdateOrderdetailDto } from "./dto/update-orderdetail.dto";
 
 @Injectable()
 export class OrderdetailsService {
-  constructor(
-    @InjectRepository(Orderdetail)
-    private readonly orderDetailsRepo: Repository<Orderdetail>,
-  ) {}
-  async create(
-    createOrderdetailDto: CreateOrderdetailDto,
-  ): Promise<Orderdetail> {
+  private readonly logger = new Logger(OrderdetailsService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createOrderdetailDto: CreateOrderdetailDto): Promise<OrderDetail> {
     try {
-      const newOrderdetail = this.orderDetailsRepo.create({
-        ...createOrderdetailDto,
-      })
-      return Promise.resolve(this.orderDetailsRepo.save(newOrderdetail))
+      return await this.prisma.orderDetail.create({
+        data: createOrderdetailDto,
+      });
     } catch (error) {
-      Logger.error(error, 'OrderdetailsService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create order detail", error);
+      throw error;
     }
   }
 
-  async findAll(): Promise<Orderdetail[]> {
-    const orderdetails = await this.orderDetailsRepo.find()
-    return Promise.resolve(orderdetails)
+  async findAll(): Promise<OrderDetail[]> {
+    return this.prisma.orderDetail.findMany();
   }
 
-  async findOne(id: number): Promise<Orderdetail> {
-    try {
-      return await this.orderDetailsRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(
-        `Can't find orderdetail with id ${id}`,
-        'OrderdetailsService',
-      )
-      throw new BadRequestException("Can't find orderdetail")
+  async findOne(id: number): Promise<OrderDetail> {
+    const orderDetail = await this.prisma.orderDetail.findUnique({
+      where: { id },
+    });
+
+    if (!orderDetail) {
+      this.logger.error(`Cannot find order detail with id ${id}`);
+      throw new NotFoundException(`Order detail with id ${id} not found`);
     }
+
+    return orderDetail;
   }
 
-  async update(
-    id: number,
-    updateOrderdetailDto: UpdateOrderdetailDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return await this.orderDetailsRepo.update(id, updateOrderdetailDto)
+  async update(id: number, updateOrderdetailDto: UpdateOrderdetailDto): Promise<OrderDetail> {
+    await this.findOne(id);
+    return this.prisma.orderDetail.update({
+      where: { id },
+      data: updateOrderdetailDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return await this.orderDetailsRepo.delete(id)
+  async remove(id: number): Promise<OrderDetail> {
+    await this.findOne(id);
+    return this.prisma.orderDetail.delete({
+      where: { id },
+    });
   }
 }

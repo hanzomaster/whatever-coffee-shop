@@ -1,7 +1,4 @@
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 export const jwtConstants = {
-  secret: process.env.JWT_ACCESS_SECRET,
-  secretExpiration: +process.env.JWT_ACCESS_SECRET_EXPIRATION,
-}
+  secret: process.env.JWT_SECRET ?? "fallback-secret-change-in-production",
+  secretExpiration: "1d",
+} as const;

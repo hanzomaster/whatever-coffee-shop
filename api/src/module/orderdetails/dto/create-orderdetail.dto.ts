@@ -1,18 +1,18 @@
-import { Type } from 'class-transformer'
-import { IsDecimal, IsNumber } from 'class-validator'
+import { Type } from "class-transformer";
+import { IsDecimal, IsNumber } from "class-validator";
 
 export class CreateOrderdetailDto {
   @IsDecimal()
-  unit_price: number
+  unit_price!: number;
 
   @IsDecimal()
-  quantity: number
+  quantity!: number;
 
   @Type(() => Number)
   @IsNumber()
-  orderId: number
+  orderId!: number;
 
   @Type(() => Number)
   @IsNumber()
-  productId: number
+  productId!: number;
 }

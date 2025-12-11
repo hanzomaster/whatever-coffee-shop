@@ -5,23 +5,23 @@ import {
   IsOptional,
   IsPhoneNumber,
   MinLength,
-} from 'class-validator'
-import { Role } from '../../../auth/role.enum'
+} from "class-validator";
+import { Role } from "../../../auth/role.enum";
 
 export class CreateUserDto {
   @IsAlphanumeric()
-  username: string
+  username!: string;
 
   @MinLength(8)
-  password: string
+  password!: string;
 
   @IsDateString()
-  dob: Date
+  dob!: Date;
 
-  @IsPhoneNumber('VN')
-  phone: string
+  @IsPhoneNumber("VN")
+  phone!: string;
 
   @IsOptional()
   @IsEnum(Role)
-  role: Role
+  role!: Role;
 }

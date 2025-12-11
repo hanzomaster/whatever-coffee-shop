@@ -1,16 +1,16 @@
-import { IsDecimal, IsOptional, IsString } from 'class-validator'
+import { IsDecimal, IsOptional, IsString } from "class-validator";
 
 export class CreateStoreDto {
   @IsString()
-  location: string
+  location!: string;
 
   @IsDecimal()
-  revenue: number
+  revenue!: number;
 
   @IsDecimal()
-  fixed_cost: number
+  fixed_cost!: number;
 
   @IsOptional()
   @IsString()
-  img_path: string
+  img_path!: string;
 }

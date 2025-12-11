@@ -1,50 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateCustomerDto } from './dto/create-customer.dto'
-import { UpdateCustomerDto } from './dto/update-customer.dto'
-import { Customer } from './entities/customer.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { Customer } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateCustomerDto } from "./dto/create-customer.dto";
+import type { UpdateCustomerDto } from "./dto/update-customer.dto";
 
 @Injectable()
 export class CustomerService {
-  constructor(
-    @InjectRepository(Customer)
-    private readonly customerRepo: Repository<Customer>,
-  ) {}
+  private readonly logger = new Logger(CustomerService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
+
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     try {
-      const newCustomer = this.customerRepo.create({ ...createCustomerDto })
-      return Promise.resolve(this.customerRepo.save(newCustomer))
+      return await this.prisma.customer.create({
+        data: createCustomerDto,
+      });
     } catch (error) {
-      Logger.error(error, 'CustomerService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create customer", error);
+      throw error;
     }
   }
 
   async findAll(): Promise<Customer[]> {
-    const customers = await this.customerRepo.find()
-    return Promise.resolve(customers)
+    return this.prisma.customer.findMany();
   }
 
   async findOne(id: number): Promise<Customer> {
-    try {
-      return await this.customerRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(`Can't find customer with id ${id}`, 'CustomerService')
-      throw new BadRequestException("Can't find customer")
+    const customer = await this.prisma.customer.findUnique({
+      where: { id },
+    });
+
+    if (!customer) {
+      this.logger.error(`Cannot find customer with id ${id}`);
+      throw new NotFoundException(`Customer with id ${id} not found`);
     }
+
+    return customer;
   }
 
-  async update(
-    id: number,
-    updateCustomerDto: UpdateCustomerDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return await this.customerRepo.update(id, updateCustomerDto)
+  async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
+    await this.findOne(id);
+    return this.prisma.customer.update({
+      where: { id },
+      data: updateCustomerDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return await this.customerRepo.delete(id)
+  async remove(id: number): Promise<Customer> {
+    await this.findOne(id);
+    return this.prisma.customer.delete({
+      where: { id },
+    });
   }
 }

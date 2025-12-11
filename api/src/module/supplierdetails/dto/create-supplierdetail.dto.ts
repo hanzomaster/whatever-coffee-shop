@@ -1,12 +1,21 @@
-import { IsDateString, IsDecimal } from 'class-validator'
+import { Type } from "class-transformer";
+import { IsDateString, IsDecimal, IsNumber } from "class-validator";
 
 export class CreateSupplierdetailDto {
   @IsDateString()
-  order_date: Date
+  orderDate!: Date;
 
   @IsDecimal()
-  unit_price: number
+  unitPrice!: number;
 
   @IsDecimal()
-  suppplier_quantity: number
+  supplierQuantity!: number;
+
+  @Type(() => Number)
+  @IsNumber()
+  supplierId!: number;
+
+  @Type(() => Number)
+  @IsNumber()
+  productId!: number;
 }

@@ -1,20 +1,20 @@
 {
 	"name": "whatever-coffee-shop",
-	"version": "1.0.0",
-	"description": "A database for Database class.",
+	"version": "2.0.0",
+	"description": "Coffee shop API - modernized with Bun, NestJS 11, and Prisma.",
 	"scripts": {
-		"start": "node api/dist/main.js",
-		"start:api": "cd api && yarn start",
-		"install:api": "cd api && yarn",
-		"build:api": "cd api && yarn run build",
-		"heroku-prebuild": "npm run install:api",
-		"heroku-postbuild": "npm run build:api"
+		"start": "bun api/dist/main.js",
+		"dev": "cd api && bun run start:dev",
+		"build": "cd api && bun run build",
+		"install:api": "cd api && bun install",
+		"lint": "cd api && bun run lint",
+		"test": "cd api && bun test"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/hanzomaster/whatever-coffee-shop.git"
 	},
-	"keywords": [],
+	"keywords": ["nestjs", "prisma", "bun", "coffee-shop", "api"],
 	"contributors": [
 		{
 			"name": "Quach Ngoc Minh"
@@ -27,9 +27,5 @@
 		}
 	],
 	"license": "ISC",
-	"homepage": "https://github.com/hanzomaster/whatever-coffee-shop#readme",
-	"engines": {
-		"node": "16.x",
-		"yarn": "1.22.15"
-	}
+	"homepage": "https://github.com/hanzomaster/whatever-coffee-shop#readme"
 }

@@ -1,49 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateStoreDto } from './dto/create-store.dto'
-import { UpdateStoreDto } from './dto/update-store.dto'
-import { Store } from './entities/store.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { Store } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateStoreDto } from "./dto/create-store.dto";
+import type { UpdateStoreDto } from "./dto/update-store.dto";
 
 @Injectable()
 export class StoresService {
-  constructor(
-    @InjectRepository(Store) private readonly storeRepo: Repository<Store>,
-  ) {}
+  private readonly logger = new Logger(StoresService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createStoreDto: CreateStoreDto): Promise<Store> {
     try {
-      const newStore = this.storeRepo.create({ ...createStoreDto })
-      return Promise.resolve(this.storeRepo.save(newStore))
+      return await this.prisma.store.create({
+        data: createStoreDto,
+      });
     } catch (error) {
-      Logger.error(error, 'StoresService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create store", error);
+      throw error;
     }
   }
 
   async findAll(): Promise<Store[]> {
-    return this.storeRepo.find()
+    return this.prisma.store.findMany();
   }
 
   async findOne(id: number): Promise<Store> {
-    try {
-      return await this.storeRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(`Can't find store with id ${id}`, 'StoresService')
-      throw new BadRequestException("Can't find store")
+    const store = await this.prisma.store.findUnique({
+      where: { id },
+    });
+
+    if (!store) {
+      this.logger.error(`Cannot find store with id ${id}`);
+      throw new NotFoundException(`Store with id ${id} not found`);
     }
+
+    return store;
   }
 
-  async update(
-    id: number,
-    updateStoreDto: UpdateStoreDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return this.storeRepo.update(id, updateStoreDto)
+  async update(id: number, updateStoreDto: UpdateStoreDto): Promise<Store> {
+    await this.findOne(id);
+    return this.prisma.store.update({
+      where: { id },
+      data: updateStoreDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return this.storeRepo.delete(id)
+  async remove(id: number): Promise<Store> {
+    await this.findOne(id);
+    return this.prisma.store.delete({
+      where: { id },
+    });
   }
 }

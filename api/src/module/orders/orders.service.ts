@@ -1,49 +1,55 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
-import { CreateOrderDto } from './dto/create-order.dto'
-import { UpdateOrderDto } from './dto/update-order.dto'
-import { Order } from './entities/order.entity'
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import type { Order } from "@prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import type { CreateOrderDto } from "./dto/create-order.dto";
+import type { UpdateOrderDto } from "./dto/update-order.dto";
 
 @Injectable()
 export class OrdersService {
-  constructor(
-    @InjectRepository(Order) private readonly orderRepo: Repository<Order>,
-  ) {}
+  private readonly logger = new Logger(OrdersService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
     try {
-      const newOrder = this.orderRepo.create({ ...createOrderDto })
-      return Promise.resolve(this.orderRepo.save(newOrder))
+      return await this.prisma.order.create({
+        data: createOrderDto,
+      });
     } catch (error) {
-      Logger.error(error, 'OrdersService')
-      throw new BadRequestException('Wrong input data')
+      this.logger.error("Failed to create order", error);
+      throw error;
     }
   }
 
   async findAll(): Promise<Order[]> {
-    return this.orderRepo.find()
+    return this.prisma.order.findMany();
   }
 
-  findOne(id: number): Promise<Order> {
-    try {
-      return this.orderRepo.findOneOrFail(id)
-    } catch (error) {
-      Logger.error(`Can't find order with id ${id}`, 'OrdersService')
-      throw new BadRequestException("Can't find order")
+  async findOne(id: number): Promise<Order> {
+    const order = await this.prisma.order.findUnique({
+      where: { id },
+    });
+
+    if (!order) {
+      this.logger.error(`Cannot find order with id ${id}`);
+      throw new NotFoundException(`Order with id ${id} not found`);
     }
+
+    return order;
   }
 
-  async update(
-    id: number,
-    updateOrderDto: UpdateOrderDto,
-  ): Promise<UpdateResult> {
-    await this.findOne(id)
-    return this.orderRepo.update(id, updateOrderDto)
+  async update(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
+    await this.findOne(id);
+    return this.prisma.order.update({
+      where: { id },
+      data: updateOrderDto,
+    });
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    await this.findOne(id)
-    return this.orderRepo.delete(id)
+  async remove(id: number): Promise<Order> {
+    await this.findOne(id);
+    return this.prisma.order.delete({
+      where: { id },
+    });
   }
 }

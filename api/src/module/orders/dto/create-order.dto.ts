@@ -1,15 +1,15 @@
-import { Type } from 'class-transformer'
-import { IsDateString, IsNumber } from 'class-validator'
+import { Type } from "class-transformer";
+import { IsDateString, IsNumber } from "class-validator";
 
 export class CreateOrderDto {
   @IsDateString()
-  date: Date
+  date!: Date;
 
   @Type(() => Number)
   @IsNumber()
-  customerId: number
+  customerId!: number;
 
   @Type(() => Number)
   @IsNumber()
-  storeId: number
+  storeId!: number;
 }

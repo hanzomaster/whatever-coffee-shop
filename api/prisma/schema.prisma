@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  user
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  dob       DateTime @db.Date
+  phone     String   @default("0123456789") @db.VarChar(20)
+  role      Role     @default(user)
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Customer {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(100)
+  balance Decimal  @db.Decimal(10, 2)
+  phone   String?
+  orders  Order[]
+
+  @@map("customer")
+}
+
+model Store {
+  id        Int      @id @default(autoincrement())
+  location  String   @db.VarChar(50)
+  revenue   Decimal  @db.Decimal(10, 2)
+  fixedCost Decimal? @map("fixed_cost") @db.Decimal(10, 2)
+  imgPath   String?  @map("img_path") @db.VarChar(255)
+  orders    Order[]
+
+  @@map("store")
+}
+
+model Product {
+  id              Int              @id @default(autoincrement())
+  name            String           @db.VarChar(25)
+  price           Decimal?         @db.Decimal(10, 2)
+  cost            Decimal?         @db.Decimal(10, 2)
+  category        String           @db.VarChar(15)
+  inventory       Decimal?         @db.Decimal(10, 0)
+  imgPath         String?          @map("img_path") @db.VarChar(255)
+  description     String?          @db.VarChar(255)
+  supplierId      Int?             @default(0) @map("supplierId")
+  supplier        Supplier?        @relation(fields: [supplierId], references: [id])
+  supplierDetails SupplierDetail[]
+  orderDetails    OrderDetail[]
+
+  @@map("product")
+}
+
+model Supplier {
+  id              Int              @id @default(autoincrement())
+  name            String           @db.VarChar(25)
+  products        Product[]
+  supplierDetails SupplierDetail[]
+
+  @@map("supplier")
+}
+
+model Order {
+  id           Int           @id @default(autoincrement())
+  date         DateTime?     @db.Timestamp()
+  customerId   Int
+  storeId      Int
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  store        Store         @relation(fields: [storeId], references: [id])
+  orderDetails OrderDetail[]
+
+  @@map("order")
+}
+
+model OrderDetail {
+  id        Int      @id @default(autoincrement())
+  unitPrice Decimal? @map("unit_price") @db.Decimal(10, 2)
+  quantity  Decimal? @db.Decimal(10, 0)
+  orderId   Int
+  productId Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("order_detail")
+}
+
+model SupplierDetail {
+  id               Int       @id @default(autoincrement())
+  orderDate        DateTime? @map("order_date") @db.Date
+  unitPrice        Decimal?  @map("unit_price") @db.Decimal(10, 2)
+  supplierQuantity Decimal?  @map("supplier_quantity") @db.Decimal(10, 0)
+  supplierId       Int
+  productId        Int
+  supplier         Supplier  @relation(fields: [supplierId], references: [id])
+  product          Product   @relation(fields: [productId], references: [id])
+
+  @@map("supplier_detail")
+}

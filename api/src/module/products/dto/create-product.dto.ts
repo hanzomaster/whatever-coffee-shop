@@ -1,32 +1,32 @@
-import { Type } from 'class-transformer'
-import { IsDecimal, IsNumber, IsOptional, IsString } from 'class-validator'
+import { Type } from "class-transformer";
+import { IsDecimal, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateProductDto {
   @IsString()
-  name: string
+  name!: string;
 
   @IsDecimal()
-  price: number
+  price!: number;
 
   @IsDecimal()
-  cost: number
+  cost!: number;
 
   @IsOptional()
   @IsString()
-  category: string
+  category!: string;
 
   @IsDecimal()
-  inventory: number
+  inventory!: number;
 
   @IsOptional()
   @IsString()
-  img_path: string
+  img_path!: string;
 
   @IsOptional()
   @IsString()
-  description: string
+  description!: string;
 
   @Type(() => Number)
   @IsNumber()
-  supplierId: number
+  supplierId!: number;
 }

@@ -1,49 +1,116 @@
-# Coffee shop database
+# Coffee Shop API
 
-A database for Database class.
+A modernized coffee shop management API built with NestJS 11, Prisma, and Bun.
 
-- Trần Tuấn Thịnh - 20020265
-- Quách Ngọc Minh - 20020261
-- Nguyễn Việt Hoàng - 20020196
+## Tech Stack
 
-## Table of content
-
-- [Coffee shop database](#coffee-shop-database)
-  - [Table of content](#table-of-content)
-  - [Prerequisites](#prerequisites)
-  - [Database Design](#database-design)
-  - [Database Local](#database-local)
-  - [Preview](#preview)
+- **Runtime**: [Bun](https://bun.sh/)
+- **Framework**: [NestJS 11](https://nestjs.com/)
+- **Database**: PostgreSQL with [Prisma ORM](https://www.prisma.io/)
+- **Auth**: JWT with Passport
+- **API Docs**: Swagger/OpenAPI
+- **Linting**: [Biome](https://biomejs.dev/)
+- **Container**: Docker
 
 ## Prerequisites
 
-- npm and yarn 1.x
+- [Bun](https://bun.sh/) (v1.0+)
+- PostgreSQL 16+ (or Docker)
 
-## Database Design
+## Quick Start
 
-Use PostgreSQL database with TypeORM for querying
+### Option 1: Docker (Recommended)
 
-![coffee shop diagram.png](docs/coffee%20shop%20diagram.png)
+```bash
+# Start all services
+docker compose up -d
 
-- Customer Table is where we store customers' information. There are 5 different rows which are **id**, **first name**, **last name**, **balance** and **phone number**
-- Order Table is where we store orders' information. We can see each each orders' **id**, **customerID**, **storeID**, **date**, and **total price** of the order.
-- In OrderDetails, we include details for each order. For example, a customer has 1 order with 2 difference product, this table will dispay each item price.
-- Next is the Product Table, we have products' **name**, **price** for each of them, and the **cost** of each product. We also separate each product into it own **category** and keep track of their **inventory**.
-- In the Store Table, we include the **location** of each store, **total revenue** in each store and the **cost** it took to operate.
-- Go to the SupplierDetails Table, we have suppliers' information and their transaction with the shop.
-- Lastly, in the suppliers Table, we have the supplier basic information like **name** and the total amount of **money paid** for each supplier
+# Access the API
+open http://localhost:3333/api/docs
+```
 
-## Database Local
+### Option 2: Local Development
 
-If you want to run this database locally then do the following
+```bash
+# Install dependencies
+cd api && bun install
 
-- Clone this github repo to your local machine
-- Create an empty database name coffee in your PostgreSQL database
-- Open a terminal at api folder, run `copy env.example .env` and change corresponding variable to match your local database
-- Still at that terminal, run `yarn` to install all dependencies and `yarn run migration:run` to import data to your database
-- Run the server with `yarn start:prod`
+# Setup environment
+cp .env.example .env
+# Edit .env with your database credentials
 
-## Preview
+# Generate Prisma client
+bun run db:generate
 
-- Link to our frontend <https://github.com/Mint18032/coffeeShop> with [preview](https://mint18032.github.io/coffeeShop/build/index.html)
-- Documentation for API <https://whatever-coffee-shop.herokuapp.com/api/docs/>
+# Push schema to database
+bun run db:push
+
+# Start development server
+bun run start:dev
+```
+
+## Available Scripts
+
+```bash
+# Development
+bun run start:dev    # Start with hot reload
+bun run start:debug  # Start with debugger
+
+# Production
+bun run build        # Build for production
+bun run start:prod   # Run production build
+
+# Database
+bun run db:generate  # Generate Prisma client
+bun run db:push      # Push schema to DB
+bun run db:migrate   # Run migrations
+bun run db:studio    # Open Prisma Studio
+
+# Code Quality
+bun run lint         # Run Biome linter
+bun run lint:fix     # Fix lint issues
+bun run format       # Format code
+
+# Testing
+bun test             # Run tests
+bun test --watch     # Watch mode
+```
+
+## API Documentation
+
+Once running, access Swagger docs at: `http://localhost:3333/api/docs`
+
+## Database Schema
+
+![Database Diagram](docs/coffee%20shop%20diagram.png)
+
+### Models
+
+- **User**: Authentication and authorization
+- **Customer**: Customer information and balance
+- **Store**: Store locations and revenue
+- **Product**: Product catalog with pricing
+- **Supplier**: Supplier information
+- **Order**: Customer orders
+- **OrderDetail**: Line items for orders
+- **SupplierDetail**: Supplier transactions
+
+## Environment Variables
+
+```env
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/coffee_shop
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRATION=1d
+PORT=3333
+```
+
+## Contributors
+
+- Tran Tuan Thinh - 20020265
+- Quach Ngoc Minh - 20020261
+- Nguyen Viet Hoang - 20020196
+
+## License
+
+ISC
